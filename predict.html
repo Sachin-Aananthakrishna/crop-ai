@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Predict Crop</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header><h1>Predict Crop</h1></header>
+  <main>
+    <form id="predict-form">
+      <input name="N" type="number" placeholder="Nitrogen" required><br>
+      <input name="P" type="number" placeholder="Phosphorus" required><br>
+      <input name="K" type="number" placeholder="Potassium" required><br>
+      <input name="temperature" type="number" placeholder="Temperature (°C)" required><br>
+      <input name="humidity" type="number" placeholder="Humidity (%)" required><br>
+      <input name="ph" type="number" placeholder="Soil pH" step="0.1" required><br>
+      <input name="rainfall" type="number" placeholder="Rainfall (mm)" required><br>
+      <button type="submit">Predict</button>
+    </form>
+    <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
+  </main>
+  <footer><p>© 2025 Crop AI</p></footer>
+
+  <script>
+    document.getElementById('predict-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      // Convert all input values to float
+      const payload = {};
+      for (const [key, value] of Object.entries(data)) {
+        payload[key] = parseFloat(value);
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        document.getElementById('result').textContent = "🌱 Predicted Crop: " + result.predicted_crop;
+      } catch (error) {
+        console.error("Prediction error:", error);
+        document.getElementById('result').textContent = "❌ Failed to get prediction. Check console.";
+      }
+    });
+  </script>
+</body>
+</html>
