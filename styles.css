@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f0f7f4;
+}
+header, footer {
+  background: #2e7d32;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+main {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.card {
+  background: white;
+  padding: 1rem;
+  border: 2px solid #2e7d32;
+  text-align: center;
+  text-decoration: none;
+  color: #2e7d32;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.card:hover {
+  background: #2e7d32;
+  color: white;
+}
